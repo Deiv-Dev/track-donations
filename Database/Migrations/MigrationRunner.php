@@ -9,7 +9,7 @@ require_once '../DatabaseConnection.php';
 
 class MigrationRunner
 {
-    public static function runMigrations(\PDO $pdo)
+    public static function runMigrations(\PDO $pdo): void
     {
         $migrationFiles = [
             'CreateCharityTable',

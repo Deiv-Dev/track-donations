@@ -11,7 +11,7 @@ use models\Charity;
 
 class CharityController
 {
-    public function create(Charity $charity)
+    public function create(Charity $charity): void
     {
         $pdo = DatabaseConnection::getConnection();
         $stmt = $pdo->prepare("INSERT INTO charities (name, representative_email) VALUES (?, ?)");
@@ -29,7 +29,7 @@ class CharityController
         return $result;
     }
 
-    public function update(Charity $charity)
+    public function update(Charity $charity): void
     {
         $pdo = DatabaseConnection::getConnection();
         $stmt = $pdo->prepare("UPDATE charities SET name = ?, representative_email = ? WHERE id = ?");
@@ -37,7 +37,7 @@ class CharityController
         $pdo = null;
     }
 
-    public function delete(int $charityId)
+    public function delete(int $charityId): void
     {
         $pdo = DatabaseConnection::getConnection();
         $stmt = $pdo->prepare("DELETE FROM charities WHERE id = ?");

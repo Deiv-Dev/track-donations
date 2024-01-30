@@ -4,7 +4,7 @@ namespace database\migrations;
 
 class DatabaseCreator
 {
-    public static function createDatabase()
+    public static function createDatabase(): void
     {
         global $rootDsn, $rootUsername, $rootPassword, $dbName;
 

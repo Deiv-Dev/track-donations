@@ -4,7 +4,7 @@ namespace database\migrations;
 
 class CreateCharityTable
 {
-    public static function up(\PDO $pdo)
+    public static function up(\PDO $pdo): void
     {
         $pdo->exec("
             CREATE TABLE IF NOT EXISTS charities (

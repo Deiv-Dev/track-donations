@@ -6,7 +6,7 @@ class DatabaseConnection
 {
     private static $pdo;
 
-    public static function getConnection()
+    public static function getConnection(): \PDO
     {
         global $rootDsn, $rootUsername, $rootPassword, $dbName;
 
