@@ -19,6 +19,14 @@ class CharityController
         $pdo = null;
     }
 
+    public function getAllCharities(): array
+    {
+        $pdo = DatabaseConnection::getConnection();
+        $stmt = $pdo->query("SELECT * FROM charities");
+
+        return $stmt->fetchAll(\PDO::FETCH_OBJ);
+    }
+
     public function read(int $charityId): array
     {
         $pdo = DatabaseConnection::getConnection();

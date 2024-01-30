@@ -36,6 +36,7 @@ try {
     $pdo = \Database\DatabaseConnection::getConnection();
     $mig = new MigrationRunner();
     MigrationRunner::runMigrations($pdo);
+    $pdo = null;
 } catch (\PDOException $e) {
     die('Database connection failed: ' . $e->getMessage());
 }

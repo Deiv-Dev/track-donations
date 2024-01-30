@@ -25,6 +25,14 @@ class DonationController
         $pdo = null;
     }
 
+    public function getAllDonations(): array
+    {
+        $pdo = DatabaseConnection::getConnection();
+        $stmt = $pdo->query("SELECT * FROM donations");
+
+        return $stmt->fetchAll(\PDO::FETCH_OBJ);
+    }
+
     public function read(int $donationId): array
     {
         $pdo = DatabaseConnection::getConnection();
