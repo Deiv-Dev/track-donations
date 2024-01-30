@@ -1,6 +1,6 @@
 <?php
 
-namespace Database\Migrations;
+namespace database\migrations;
 
 class CreateCharityTable
 {

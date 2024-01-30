@@ -1,6 +1,6 @@
 <?php
 
-namespace Database\Migrations;
+namespace database\migrations;
 
 require_once './CreateDatabase.php';
 require_once './CreateCharityTable.php';

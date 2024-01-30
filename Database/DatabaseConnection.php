@@ -1,6 +1,6 @@
 <?php
 
-namespace Database;
+namespace database;
 
 class DatabaseConnection
 {
@@ -18,7 +18,6 @@ class DatabaseConnection
 
                 self::$pdo = new \PDO($dsn, $rootUsername, $rootPassword);
                 self::$pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
-                echo "Database connected successfully.\n";
             } catch (\PDOException $e) {
                 die('Database connection failed: ' . $e->getMessage());
             }
