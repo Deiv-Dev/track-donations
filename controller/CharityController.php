@@ -39,10 +39,14 @@ class CharityController
 
     public function update(Charity $charity): void
     {
-        $pdo = DatabaseConnection::getConnection();
-        $stmt = $pdo->prepare("UPDATE charities SET name = ?, representative_email = ? WHERE id = ?");
-        $stmt->execute([$charity->getName(), $charity->getRepresentativeEmail(), $charity->getId()]);
-        $pdo = null;
+        try {
+            $pdo = DatabaseConnection::getConnection();
+            $stmt = $pdo->prepare("UPDATE charities SET name = ?, representative_email = ? WHERE id = ?");
+            $stmt->execute([$charity->getName(), $charity->getRepresentativeEmail(), $charity->getId()]);
+            $pdo = null;
+        } catch (PDOException $e) {
+            echo "Error updating charity: " . $e->getMessage();
+        }
     }
 
     public function delete(int $charityId): void

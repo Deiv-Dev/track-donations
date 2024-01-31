@@ -35,7 +35,16 @@
                         </form>
                     </td>
                     <td>
-                        <p>update</p>
+                        <form method="post" action="../public/charity/UpdateView.php">
+                            <!-- Include hidden input fields for all charity properties -->
+                            <input type="hidden" name="charity_id" value="<?php echo $charity->id; ?>">
+                            <input type="hidden" name="charity_name" value="<?php echo $charity->name; ?>">
+                            <input type="hidden" name="charity_representative_email"
+                                value="<?php echo $charity->representative_email; ?>">
+                            <!-- Add more hidden input fields for other properties as needed -->
+
+                            <button type="submit">Update</button>
+                        </form>
                     </td>
                 </tr>
             <?php endforeach; ?>
