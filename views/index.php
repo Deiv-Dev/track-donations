@@ -10,6 +10,15 @@
 
 <body>
     <h1>Charities List</h1>
+    <form method="post" action="../public/charity/AddCharity.php">
+        <label for="new_charity_name">Charity Name:</label>
+        <input type="text" name="new_charity_name" required>
+
+        <label for="new_charity_email">Representative Email:</label>
+        <input type="email" name="new_charity_email" required>
+
+        <button type="submit">Add Charity</button>
+    </form>
     <table>
         <thead>
             <tr>
@@ -48,6 +57,27 @@
         </tbody>
     </table>
     <h1>Donations List</h1>
+    <form id="addDonationForm" method="post" action="../public/donation/AddDonation.php">
+        <label for="donor_name">Donor Name:</label>
+        <input type="text" name="donor_name" required>
+
+        <label for="donation_amount">Donation Amount:</label>
+        <input type="number" name="donation_amount" required>
+
+        <label for="charity_id">Select Charity:</label>
+        <select name="charity_id" required>
+            <?php foreach ($charities as $charity): ?>
+                <option value="<?php echo $charity->id; ?>">
+                    <?php echo $charity->name; ?>
+                </option>
+            <?php endforeach; ?>
+        </select>
+
+        <label for="donation_date">Donation Date:</label>
+        <input type="date" name="donation_date" required>
+
+        <button type="submit">Add Donation</button>
+    </form>
     <table>
         <thead>
             <tr>
