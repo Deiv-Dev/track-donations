@@ -48,8 +48,13 @@ class CharityController
     public function delete(int $charityId): void
     {
         $pdo = DatabaseConnection::getConnection();
-        $stmt = $pdo->prepare("DELETE FROM charities WHERE id = ?");
-        $stmt->execute([$charityId]);
+
+        $stmtDonations = $pdo->prepare("DELETE FROM donations WHERE charity_id = ?");
+        $stmtDonations->execute([$charityId]);
+
+        $stmtCharity = $pdo->prepare("DELETE FROM charities WHERE id = ?");
+        $stmtCharity->execute([$charityId]);
+
         $pdo = null;
     }
 }

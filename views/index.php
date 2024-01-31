@@ -5,24 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Charities List</title>
-    <style>
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
-
-        th,
-        td {
-            border: 1px solid #ddd;
-            padding: 8px;
-            text-align: left;
-        }
-
-        th {
-            background-color: #f2f2f2;
-        }
-    </style>
+    <link rel="stylesheet" href="../public/index.css">
 </head>
 
 <body>
@@ -46,7 +29,10 @@
                         <?php echo $charity->representative_email; ?>
                     </td>
                     <td>
-                        <p>Delete</p>
+                        <form class="delete-charity-form" method="post" action="../public/charity/DeleteCharity.php">
+                            <input type="hidden" name="charity_id" value="<?php echo $charity->id; ?>">
+                            <button type="button" onclick="deleteCharity(this)">Delete</button>
+                        </form>
                     </td>
                     <td>
                         <p>update</p>
@@ -83,9 +69,9 @@
                         <?php echo $donation->date_time; ?>
                     </td>
                     <td>
-                        <form method="post" action="../public/donation/DeleteDonation.php">
+                        <form class="delete-donation-form" method="post" action="../public/donation/DeleteDonation.php">
                             <input type="hidden" name="donation_id" value="<?php echo $donation->id; ?>">
-                            <button type="submit">Delete</button>
+                            <button type="button" onclick="deleteDonation(this)">Delete</button>
                         </form>
                     </td>
                     <td>
@@ -96,5 +82,6 @@
         </tbody>
     </table>
 </body>
+<script src="../public/index.js"></script>
 
 </html>
