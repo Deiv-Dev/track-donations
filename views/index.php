@@ -35,14 +35,11 @@
                         </form>
                     </td>
                     <td>
-                        <form method="post" action="../public/charity/UpdateView.php">
-                            <!-- Include hidden input fields for all charity properties -->
+                        <form method="post" action="../public/charity/UpdateCharityView.php">
                             <input type="hidden" name="charity_id" value="<?php echo $charity->id; ?>">
                             <input type="hidden" name="charity_name" value="<?php echo $charity->name; ?>">
                             <input type="hidden" name="charity_representative_email"
                                 value="<?php echo $charity->representative_email; ?>">
-                            <!-- Add more hidden input fields for other properties as needed -->
-
                             <button type="submit">Update</button>
                         </form>
                     </td>
@@ -55,7 +52,7 @@
         <thead>
             <tr>
                 <th>Name</th>
-                <th>Email</th>
+                <th>Amount</th>
                 <th>Charity Name</th>
                 <th>Date Time</th>
                 <th></th>
@@ -84,7 +81,15 @@
                         </form>
                     </td>
                     <td>
-                        <p>update</p>
+                        <form method="post" action="../public/donation/UpdateDonationView.php">
+                            <input type="hidden" name="donation_id" value="<?php echo $donation->id; ?>">
+                            <input type="hidden" name="donation_name" value="<?php echo $donation->donor_name; ?>">
+                            <input type="hidden" name="donation_amount" value="<?php echo $donation->amount; ?>">
+                            <input type="hidden" name="charity_name"
+                                value="<?php echo $charityController->read($donation->charity_id)['name']; ?>">
+                            <input type="hidden" name="donation_date" value="<?php echo $donation->date_time; ?>">
+                            <button type="submit">Update</button>
+                        </form>
                     </td>
                 </tr>
             <?php endforeach; ?>

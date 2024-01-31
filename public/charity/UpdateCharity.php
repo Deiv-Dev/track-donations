@@ -11,7 +11,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $newRepresentativeEmail = $_POST['representative_email'];
 
     if (empty($newName) || empty($newRepresentativeEmail)) {
-        // Handle validation errors
         echo "Invalid input. Name and representative email are required.";
         exit();
     }
@@ -23,7 +22,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $charity->setName($newName);
     $charity->setRepresentativeEmail($newRepresentativeEmail);
 
-    // Update the charity information
     $charityController->update($charity);
 
     header("Location: ../../public/index.php");
