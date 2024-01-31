@@ -110,7 +110,7 @@ class CharityController
             $stmtCharity->execute([$charityId]);
 
         } catch (\PDOException $e) {
-            echo "Error: " . $e->getMessage();
+            echo self::ERROR_PREFIX . $e->getMessage();
         } finally {
             $pdo = null;
         }

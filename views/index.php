@@ -10,6 +10,12 @@
 
 <body>
     <h1>Charities List</h1>
+    <form method="post" action="../public/CsvUpload.php" enctype="multipart/form-data">
+        <label for="csv_file">Upload CSV File to add charities:</label>
+        <input type="file" name="csv_file" accept=".csv" required>
+
+        <button type="submit">Import Charities from CSV</button>
+    </form>
     <form method="post" action="../public/charity/AddCharity.php">
         <label for="new_charity_name">Charity Name:</label>
         <input type="text" name="new_charity_name" required>
