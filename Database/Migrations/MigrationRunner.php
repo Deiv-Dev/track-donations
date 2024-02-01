@@ -17,7 +17,7 @@ class MigrationRunner
         ];
 
         foreach ($migrationFiles as $migrationFile) {
-            $className = 'Database\\Migrations\\' . $migrationFile;
+            $className = 'database\\migrations\\' . $migrationFile;
 
             if (class_exists($className)) {
                 $migration = new $className();
