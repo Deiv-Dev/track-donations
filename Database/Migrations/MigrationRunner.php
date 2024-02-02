@@ -2,14 +2,24 @@
 
 namespace database\migrations;
 
-require_once './CreateDatabase.php';
-require_once './CreateCharityTable.php';
-require_once './CreateDonationTable.php';
-require_once '../DatabaseConnection.php';
+require_once __DIR__ . '/./CreateDatabase.php';
+require_once __DIR__ . '/./CreateCharityTable.php';
+require_once __DIR__ . '/./CreateDonationTable.php';
+require_once __DIR__ . '/../DatabaseConnection.php';
+
+use database\DatabaseConnection;
+use database\migrations\CreateDatabase;
 
 class MigrationRunner
 {
-    public static function runMigrations(\PDO $pdo): void
+    private $pdo;
+
+    public function __construct(DatabaseConnection $databaseConnection)
+    {
+        $this->pdo = $databaseConnection;
+    }
+
+    public function runMigrations(): void
     {
         $migrationFiles = [
             'CreateCharityTable',
@@ -21,7 +31,7 @@ class MigrationRunner
 
             if (class_exists($className)) {
                 $migration = new $className();
-                $migration->up($pdo);
+                $migration->up($this->pdo->getConnection());
                 echo "Migration created: $migrationFile\n";
             } else {
                 echo "Migration class not found: $migrationFile\n";
@@ -31,11 +41,11 @@ class MigrationRunner
 }
 
 try {
-    $createDb = new DatabaseCreator();
-    DatabaseCreator::createDatabase();
-    $pdo = \Database\DatabaseConnection::getConnection();
-    $mig = new MigrationRunner();
-    MigrationRunner::runMigrations($pdo);
+    $createDb = new DatabaseConnection();
+    $createCharityDb = new CreateDatabase($createDb);
+    $createCharityDb->createDatabase();
+    $mig = new MigrationRunner($createDb);
+    $mig->runMigrations();
     $pdo = null;
 } catch (\PDOException $e) {
     die('Database connection failed: ' . $e->getMessage());

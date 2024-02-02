@@ -2,19 +2,27 @@
 
 namespace database\migrations;
 
-class DatabaseCreator
+require_once __DIR__ . '/../DatabaseConnection.php';
+use database\DatabaseConnection;
+
+class CreateDatabase
 {
-    public static function createDatabase(): void
+    private $pdo;
+
+    public function __construct(DatabaseConnection $databaseConnection)
+    {
+        $this->pdo = $databaseConnection;
+    }
+
+    public function createDatabase(): void
     {
         global $rootDsn, $rootUsername, $rootPassword, $dbName;
 
         require_once '../../config.php';
 
         try {
-            $pdoWithoutDB = new \PDO($rootDsn, $rootUsername, $rootPassword);
-            $pdoWithoutDB->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
-
-            $pdoWithoutDB->exec("CREATE DATABASE IF NOT EXISTS $dbName");
+            $pdoConnection = $this->pdo->getConnection();
+            $pdoConnection->exec("CREATE DATABASE IF NOT EXISTS $dbName");
 
             echo "Database '$dbName' created successfully.\n";
         } catch (\PDOException $e) {
