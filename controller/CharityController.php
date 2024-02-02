@@ -12,6 +12,13 @@ class CharityController
 {
     const ERROR_PREFIX = "Error: ";
 
+    private $databaseConnection;
+
+    public function __construct(DatabaseConnection $databaseConnection)
+    {
+        $this->databaseConnection = $databaseConnection;
+    }
+
     public function create(Charity $charity): void
     {
         if (empty($charity->getName()) || empty($charity->getRepresentativeEmail())) {
@@ -29,7 +36,7 @@ class CharityController
         }
 
         try {
-            $pdo = DatabaseConnection::getConnection();
+            $pdo = $this->databaseConnection->getConnection();
             $stmt = $pdo->prepare("INSERT INTO charities (name, representative_email) VALUES (?, ?)");
             $stmt->execute([$name, $email]);
         } catch (\PDOException | \InvalidArgumentException $e) {
@@ -42,7 +49,7 @@ class CharityController
     public function getAllCharities(): array
     {
         try {
-            $pdo = DatabaseConnection::getConnection();
+            $pdo = $this->databaseConnection->getConnection();
             $stmt = $pdo->query("SELECT * FROM charities");
             return $stmt->fetchAll(\PDO::FETCH_OBJ);
 
@@ -57,7 +64,7 @@ class CharityController
     public function read(int $charityId): array
     {
         try {
-            $pdo = DatabaseConnection::getConnection();
+            $pdo = $this->databaseConnection->getConnection();
             $stmt = $pdo->prepare("SELECT * FROM charities WHERE id = ?");
             $stmt->execute([$charityId]);
             return $stmt->fetch(\PDO::FETCH_ASSOC);
@@ -87,7 +94,7 @@ class CharityController
                 throw new \InvalidArgumentException("Error: Invalid email format for representative.");
             }
 
-            $pdo = DatabaseConnection::getConnection();
+            $pdo = $this->databaseConnection->getConnection();
             $stmt = $pdo->prepare("UPDATE charities SET name = ?, representative_email = ? WHERE id = ?");
             $stmt->execute([$charity->getName(), $charity->getRepresentativeEmail(), $charity->getId()]);
         } catch (\PDOException | \InvalidArgumentException $e) {
@@ -101,7 +108,7 @@ class CharityController
     public function delete(int $charityId): void
     {
         try {
-            $pdo = DatabaseConnection::getConnection();
+            $pdo = $this->databaseConnection->getConnection();
 
             $stmtDonations = $pdo->prepare("DELETE FROM donations WHERE charity_id = ?");
             $stmtDonations->execute([$charityId]);

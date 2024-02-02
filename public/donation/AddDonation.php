@@ -1,9 +1,11 @@
 <?php
 
 require_once __DIR__ . '/../../controller/DonationController.php';
-use controller\DonationController;
-
 require_once __DIR__ . '/../../models/Donation.php';
+require_once __DIR__ . '/../../database/DatabaseConnection.php';
+
+use database\DatabaseConnection;
+use controller\DonationController;
 use models\Donation;
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -12,7 +14,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $charityId = $_POST['charity_id'];
     $donationDate = $_POST['donation_date'];
 
-    $donationController = new DonationController();
+    $databaseConnection = new DatabaseConnection();
+    $donationController = new DonationController($databaseConnection);
 
     $donation = new Donation();
     $donation->setDonorName($donorName);

@@ -1,9 +1,13 @@
 <?php
 
 require_once __DIR__ . '/../../controller/CharityController.php';
+require_once __DIR__ . '/../../database/DatabaseConnection.php';
+
+use database\DatabaseConnection;
 use controller\CharityController;
 
-$charityController = new CharityController();
+$databaseConnection = new DatabaseConnection();
+$charityController = new CharityController($databaseConnection);
 $charities = $charityController->getAllCharities();
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {

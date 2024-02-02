@@ -1,6 +1,9 @@
 <?php
 require_once __DIR__ . '/../controller/CharityController.php';
 require_once __DIR__ . '/../models/Charity.php';
+require_once __DIR__ . '/../database/DatabaseConnection.php';
+
+use database\DatabaseConnection;
 use controller\CharityController;
 use models\Charity;
 
@@ -18,7 +21,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     $handle = fopen($tempFilePath, 'r');
     if ($handle !== false) {
-        $charityController = new CharityController();
+        $databaseConnection = new DatabaseConnection();
+        $charityController = new CharityController($databaseConnection);
 
         $skipHeader = true;
 

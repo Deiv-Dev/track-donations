@@ -16,10 +16,16 @@ class DonationSeeder
     private $databaseConnection;
     private $donationModel;
 
-    public function __construct(DatabaseConnection $databaseConnection, Donation $donationModel)
-    {
+    private $generateRandomDate;
+
+    public function __construct(
+        DatabaseConnection $databaseConnection,
+        Donation $donationModel,
+        GenerateRandomDate $generateRandomDate
+    ) {
         $this->databaseConnection = $databaseConnection;
         $this->donationModel = $donationModel;
+        $this->generateRandomDate = $generateRandomDate;
     }
 
     public function seed(): void
@@ -41,7 +47,7 @@ class DonationSeeder
                 'donorName' => 'Donor ' . chr(65 + $i),
                 'amount' => mt_rand(1, 1000000),
                 'charityId' => $charityIds[array_rand($charityIds)],
-                'dateTime' => GenerateRandomDate::generateRandomDateTime(),
+                'dateTime' => $this->generateRandomDate->generateRandomDateTime(),
             ];
 
             $donationsData[] = $donationData;

@@ -4,7 +4,7 @@ namespace helpers;
 
 class GenerateRandomDate
 {
-    public static function generateRandomDateTime(): string
+    public function generateRandomDateTime(): string
     {
         $year = mt_rand(2020, 2023);
         $month = str_pad(mt_rand(1, 12), 2, '0', STR_PAD_LEFT);

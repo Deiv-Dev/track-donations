@@ -1,8 +1,10 @@
 <?php
 require_once __DIR__ . '/../../controller/CharityController.php';
-use controller\CharityController;
-
 require_once __DIR__ . '/../../models/Charity.php';
+require_once __DIR__ . '/../../database/DatabaseConnection.php';
+
+use database\DatabaseConnection;
+use controller\CharityController;
 use models\Charity;
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -15,7 +17,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         exit();
     }
 
-    $charityController = new CharityController();
+    $databaseConnection = new DatabaseConnection();
+    $charityController = new CharityController($databaseConnection);
 
     $charity = new Charity();
     $charity->setId($charityId);

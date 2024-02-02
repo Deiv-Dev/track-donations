@@ -10,6 +10,13 @@ use models\Donation;
 
 class DonationController
 {
+    private $databaseConnection;
+
+    public function __construct(DatabaseConnection $databaseConnection)
+    {
+        $this->databaseConnection = $databaseConnection;
+    }
+
     const ERROR_PREFIX = "Error: ";
     public function create(Donation $donation): void
     {
@@ -25,7 +32,7 @@ class DonationController
             }
 
             $charityId = $donation->getCharityId();
-            $pdo = DatabaseConnection::getConnection();
+            $pdo = $this->databaseConnection->getConnection();
             $dateTime = $donation->getDateTime();
 
             $stmt = $pdo->prepare(
@@ -42,7 +49,7 @@ class DonationController
     public function getAllDonations(): array
     {
         try {
-            $pdo = DatabaseConnection::getConnection();
+            $pdo = $this->databaseConnection->getConnection();
             $stmt = $pdo->query("SELECT * FROM donations");
             return $stmt->fetchAll(\PDO::FETCH_OBJ);
 
@@ -57,7 +64,7 @@ class DonationController
     public function read(int $donationId): array
     {
         try {
-            $pdo = DatabaseConnection::getConnection();
+            $pdo = $this->databaseConnection->getConnection();
             $stmt = $pdo->prepare("SELECT * FROM donations WHERE id = ?");
             $stmt->execute([$donationId]);
             return $stmt->fetch(\PDO::FETCH_ASSOC);
@@ -83,7 +90,7 @@ class DonationController
                 throw new \InvalidArgumentException("Invalid amount");
             }
 
-            $pdo = DatabaseConnection::getConnection();
+            $pdo = $this->databaseConnection->getConnection();
             $charityId = $donation->getCharityId();
             $dateTime = $donation->getDateTime();
 
@@ -101,7 +108,7 @@ class DonationController
     public function delete(int $donationId): void
     {
         try {
-            $pdo = DatabaseConnection::getConnection();
+            $pdo = $this->databaseConnection->getConnection();
             $stmt = $pdo->prepare("DELETE FROM donations WHERE id = ?");
             $stmt->execute([$donationId]);
         } catch (\PDOException | \InvalidArgumentException $e) {
