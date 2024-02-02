@@ -10,7 +10,16 @@ use models\Charity;
 
 class CharitySeeder
 {
-    public static function seed(): void
+    private $databaseConnection;
+    private $charityModel;
+
+    public function __construct(DatabaseConnection $databaseConnection, Charity $charityModel)
+    {
+        $this->databaseConnection = $databaseConnection;
+        $this->charityModel = $charityModel;
+    }
+
+    public function seed(): void
     {
         $charitiesData = [];
 
@@ -23,10 +32,10 @@ class CharitySeeder
             $charitiesData[] = $charityData;
         }
 
-        $pdo = DatabaseConnection::getConnection();
+        $pdo = $this->databaseConnection->getConnection();
 
         foreach ($charitiesData as $charityData) {
-            $charity = new Charity();
+            $charity = $this->charityModel;
             $charity->setName($charityData['name']);
             $charity->setRepresentativeEmail($charityData['representativeEmail']);
 
@@ -37,5 +46,3 @@ class CharitySeeder
         $pdo = null;
     }
 }
-
-

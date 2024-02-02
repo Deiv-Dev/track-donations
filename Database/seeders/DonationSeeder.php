@@ -13,9 +13,18 @@ use helpers\GenerateRandomDate;
 
 class DonationSeeder
 {
-    public static function seed(): void
+    private $databaseConnection;
+    private $donationModel;
+
+    public function __construct(DatabaseConnection $databaseConnection, Donation $donationModel)
     {
-        $pdo = DatabaseConnection::getConnection();
+        $this->databaseConnection = $databaseConnection;
+        $this->donationModel = $donationModel;
+    }
+
+    public function seed(): void
+    {
+        $pdo = $this->databaseConnection->getConnection();
 
         $stmt = $pdo->query("SELECT id FROM charities");
         $charityIds = $stmt->fetchAll(\PDO::FETCH_COLUMN);
@@ -27,7 +36,6 @@ class DonationSeeder
 
         $donationsData = [];
 
-        // Generate random donationsData
         for ($i = 0; $i < 40; $i++) {
             $donationData = [
                 'donorName' => 'Donor ' . chr(65 + $i),
@@ -39,16 +47,21 @@ class DonationSeeder
             $donationsData[] = $donationData;
         }
 
-        // Insert into the database
         foreach ($donationsData as $donationData) {
+            $donation = $this->donationModel;
+            $donation->setDonorName($donationData['donorName']);
+            $donation->setAmount($donationData['amount']);
+            $donation->setCharityId($donationData['charityId']);
+            $donation->setDateTime($donationData['dateTime']);
+
             $stmt = $pdo->prepare("
             INSERT INTO donations (donor_name, amount, charity_id, date_time) VALUES (?, ?, ?, ?)");
             $stmt->execute(
                 [
-                    $donationData['donorName'],
-                    $donationData['amount'],
-                    $donationData['charityId'],
-                    $donationData['dateTime']
+                    $donation->getDonorName(),
+                    $donation->getAmount(),
+                    $donation->getCharityId(),
+                    $donation->getDateTime()
                 ]
             );
         }
